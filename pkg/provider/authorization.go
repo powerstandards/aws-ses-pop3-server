@@ -57,7 +57,12 @@ func CheckAuthorization(user, password, authorizationLambda string, s3Bucket *S3
 			if prefix != "" && !strings.HasSuffix(prefix, "/") {
 				userS3Bucket.Prefix += "/"
 			}
-			userS3Bucket.Prefix += user
+			var userSuffix = user
+			userParts := strings.Split(user, "@")
+			if len(userParts) > 1 {
+				userSuffix = strings.Join([]string{userParts[1], userParts[0]}, "/")
+			}
+			userS3Bucket.Prefix += userSuffix
 			return &userS3Bucket, err
 		} else {
 			return nil, fmt.Errorf("Credentials are not authorized")
