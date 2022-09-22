@@ -92,6 +92,8 @@ func (handler *pop3Handler) Handle(message string) (responses []string, quit boo
 		responses = handler.handleRETR(message)
 	case strings.HasPrefix(message, "DELE"):
 		responses = handler.handleDELE(message)
+	case message == "LAST":
+		responses = []string{"+OK 0"}
 	case message == "NOOP":
 		responses = []string{"+OK"}
 	case message == "RSET":
