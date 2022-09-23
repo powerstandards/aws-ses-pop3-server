@@ -92,6 +92,9 @@ func (handler *pop3Handler) Handle(message string) (responses []string, quit boo
 		responses = handler.handleRETR(message)
 	case strings.HasPrefix(message, "DELE"):
 		responses = handler.handleDELE(message)
+	case message == "LAST":
+		// Brain-dead LAST command has been deprecated since 1994, but a client is still using it and does not function without it.
+		responses = []string{"+OK 0"}
 	case message == "NOOP":
 		responses = []string{"+OK"}
 	case message == "RSET":
